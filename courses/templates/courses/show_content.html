@@ -1,0 +1,28 @@
+{%include 'courses/teacher_base.html'%}
+{%block content%}
+
+<div class="container mt-4">
+    <div class="row">
+        {% for item in video %}
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.title }}</h5>
+                    <p class="card-text">Serial NO: {{ item.serial_number }}</p>
+                    <p class="card-text">ID: {{ item.video_id }}</p>
+                    <a href="https://www.youtube.com/embed/{{item.video_id}}" class="btn btn_1 video-link mb-2" style="border: 2px solid black;" >watch video</a>
+                    <a href="/update/{{item.id}}" class="btn btn_1 video-link" style="border: 2px solid black;">Update Content </a>
+                    <a href="/delete_content/{{item.id}}" class="btn btn_1 video-link" style="border: 2px solid black;">Delete Content </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+    <a href="/add_video/{{course.id}}" class="btn btn_1 video-link" style="border: 2px solid black;">Add Content</a>
+
+
+</div>
+
+
+{%endblock content%}

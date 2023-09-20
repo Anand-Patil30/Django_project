@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f8f9fa;
+        }
+
+        .custom-form {
+            max-width: 400px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-form label {
+            font-weight: bold;
+        }
+
+        .custom-form input[type="text"],
+        .custom-form input[type="email"],
+        .custom-form input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+
+        .custom-form button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .custom-form button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <title>Login Form</title>
+</head>
+<body>
+
+<div class="custom-form">
+    {%if errors%}
+    <p>{{errors}}</p>
+    {%endif%}
+    <form action="/login/" method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <br>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+    <a href="{% url 'password_reset' %}">Forgot Password?</a>
+    <br>
+    <p>Dont have an Account Register Here <a href="{%url 'signup'%}">Register</a></p>
+</div>
+
+</body>
+</html>

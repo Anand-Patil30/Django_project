@@ -1,0 +1,127 @@
+{%include 'courses/teacher_base.html'%}
+{% block content %}
+{%load custom_course_tags%}
+    <div class="container ">
+            <div class="row" style="padding: 7px;">
+                <div class="main d-flex justify-content-between flex-row">
+                    <h3>Hello Mr. {{request.user.username}}</h3>
+                    <a href="{% url 'add_course' %}" class="btn btn_1 video-link" style="border: 2px solid black;">Add course</a>
+                </div>
+    
+            </div>
+    <div class="row">
+        {% for course in page_obj %}
+        <div class="col">
+            <div class="card" style="width: 18rem;" style="height:11rem;">
+                <img src="{{course.img.url}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{course.name}}</h5>
+                    <p class="card-text">{{course.description}}</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                
+                        {%if course.discount > 0%}
+                        <li class="list-group-item">Discount :{{course.discount}}%</li>
+                        <li class="list-group-item">Price : <del>{{course.price|rupee}}</del>
+                            &nbsp;
+                            <span
+                                >{% cal_sellprice course.price course.discount as value %}  
+                                {{value|rupee}}</span>
+                            </span></li>
+                        {%else%}
+                            {%if course.price > 0 %}
+                            <li class="list-group-item">Price : {{course.price|rupee}}</li>
+                            {%else%}
+                            <li class="list-group-item">Free</li>
+                            {%endif%}
+                    {%endif%}
+                    </ul>
+                <div class="card-body">
+                    <a href="/view_video/{{course.id}}" class="btn mb-2" style="border: 2px solid black;" >View Content</a>
+                    <a href="/update_course/{{course.id}}" class="btn mb-2" style="border: 2px solid black;">Update Course</a>
+                    <a href="/delete_course/{{course.id}}" class="btn mb-2" style="border: 2px solid black;">delete Course</a>
+                    <a href="/enrolled_students/{{course.id}}" class="btn " style="border: 2px solid black;">Students</a>
+                </div>
+            </div>
+        </div>
+        {%endfor%}
+    </div>
+</div>
+
+    <!-- {% comment %} <h2>Tags</h2>
+    <ul>
+        {% for tag in tags %}
+        <li>{{ tag.description }} - Course: {{ tag.course.name }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Prerequisites</h2>
+    <ul>
+        {% for prerequisite in prerequisites %}
+        <li>
+        {{ prerequisite.description }} - Course: {{ prerequisite.course.name }}
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Learning</h2>
+    <ul>
+        {% for learning_item in learnings %}
+        <li>
+        {{ learning_item.description }} - Course: {{ learning_item.course.name}}
+
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Videos Details</h2>
+    <ul>
+        {% for item in videos %}
+        <li>
+        {{ item.title }} - Course: {{ item.course.name}}
+        &nbsp;
+        &nbsp;
+        {{item.serial_number}}
+        {{item.video_id}}
+        &nbsp;
+        &nbsp;
+        &nbsp;
+        &nbsp;
+        &nbsp;
+        <a href="https://www.youtube.com/embed/{{ item.video_id }}">Watch video</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+
+
+    <a href="{% url 'add_tag' %}"><button>Add Tag</button></a>
+    <a href="{% url 'add_learning' %}"><button>Add Learning</button></a>
+    <a href="{% url 'add_prerequisites' %}"><button>Add Prerequisites</button></a>
+    <a href="{% url 'add_video' %}"><button>Add Video</button></a>
+    {% endcomment %}
+
+    <a href="{% url 'add_course' %}"><button>Add course</button></a> -->
+
+    
+    <div class="container " style="display: flex ; justify-content: center; align-items: center; margin-top: 30px;">
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1" class="btn mb-2" style="border: 2px solid black;" >&laquo; first</a>
+                    <a href="?page={{ page_obj.previous_page_number }}" class="btn mb-2" style="border: 2px solid black;" >previous</a>
+                {% endif %}
+        
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+        
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}" class="btn mb-2" style="border: 2px solid black;" >next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}" class="btn mb-2" style="border: 2px solid black;" >last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+        </div>
+
+    {% endblock content %}

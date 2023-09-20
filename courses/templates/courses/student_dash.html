@@ -1,0 +1,96 @@
+{%extends 'courses/base.html'%}
+{% block content %}
+{%load custom_course_tags%}
+<div class="container mt-5">
+    <div class="row">
+        <form method="GET" action="{% url 'filter_courses' %}">
+            <label for="rating">Filter by Rating:</label>
+            <select name="rating" id="rating">
+                <option value="">Any Rating</option>
+                <option value="5">5 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="2">2 Stars</option>
+                <option value="1">1 Star</option>
+            </select>
+        
+            <label for="price">Filter by Price:</label>
+            <select name="price" id="price">
+                <option value="">Any Price</option>
+                <option value="free">Free</option>
+                <option value="paid">Paid</option>
+            </select>
+        
+            <button type="submit">Apply Filters</button>
+        </form>
+    {% for course in page_obj %}
+    <div class="col">
+        
+
+        <div class="container">
+            <div class="card" style="width: 18rem;" >
+                <img src="{{course.img.url}}" class="card-img-top" alt="..." style="height:11rem;">
+                <div class="card-body">
+                    <h5 class="card-title">{{course.name}}</h5>
+                    <p class="card-text">{{course.description}}</p>
+                    <p class="card-text m-0 p-0">
+                        {%if course.discount%}
+                        Save : {{course.discount}}%
+                        <br>
+                        <span class="price">Price :
+                        <del>{{course.price|rupee}}</del>
+                        &nbsp;
+                        <span
+                            >{% cal_sellprice course.price course.discount as value %}
+                            {{value|rupee}}</span
+                        >
+                        </span>
+                        {%else%}
+                        <span class="price">Price :{{course.price|rupee}}</span></p>
+                        {%endif%}
+                        <hr>
+                    </p>
+                    {%is_enrolled request course as enrolled%}
+                    {%if enrolled%}
+                        <a href="/show_course/{{course.slug}}" class="btn btn-primary">Start</a>
+                    {%else%}
+                        <a href="/checkout/{{course.slug}}" class="btn btn-primary">Enroll</a>
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        <a href="/show_course/{{course.slug}}" class="btn btn-primary">Show more</a>
+                    {%endif%}
+                    <hr>
+                    {% if course.average_rating %}
+                    <p>Ratings: {{ course.average_rating|stars }}</p>
+                {% else %}
+                    <p>No Ratings Yet</p>
+                {% endif %}
+                    </div>
+            </div>
+        </div>
+    </div>
+    {%endfor%}
+    </div>
+</div>
+<div class="container " style="display: flex ; justify-content: center; align-items: center; margin-top: 30px;">
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1" class="btn mb-2" style="border: 2px solid black;" >&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}" class="btn mb-2" style="border: 2px solid black;" >previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="btn mb-2" style="border: 2px solid black;" >next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="btn mb-2" style="border: 2px solid black;" >last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+</div>
+{% endblock content %}

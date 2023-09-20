@@ -1,0 +1,32 @@
+{%include 'courses/base.html'%}
+{%block content %}
+{%load custom_course_tags%}
+<div class="container mt-5">
+    <div class="row">
+    {%if isenrolled%}
+    {% for course in user_course %}
+    <div class="col">
+        <div class="container">
+            <div class="card" style="width: 18rem;">
+                <img src="{{course.course.img.url}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{course.course.name}}</h5>
+                    <p class="card-text">{{course.course.description}}</p>
+                    <a href="/show_course/{{course.course.slug}}" class="btn btn-primary">Start</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {%endfor%}
+    {%else%}
+    <h3>You are not enrolled to any courses yet ! </h3>
+    <br>
+    <br>
+    <br>
+    <h5>click here to explore all the courses <a href="{%url 'base'%}">Courses</a></h5>
+    {% endif %}
+    </div>
+</div>
+
+
+{% endblock content %}

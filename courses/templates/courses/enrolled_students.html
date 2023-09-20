@@ -1,0 +1,27 @@
+{% include 'courses/teacher_base.html' %}
+{% block content %}
+    <div class="container">
+        <h3>Enrolled Students Are :</h3>
+        <ul>
+            <table class="table">
+            <thead>
+                <tr>
+                    <th>sl.no</th>
+                    <th>Name</th>
+                    <th>Email Id</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for student in enrolled_student%}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{student.username}}</td>
+                    <td>{{student.email}}</td>
+                </tr>
+                {%endfor%}
+            </tbody>
+            </table>
+        </ul>
+
+    </div>
+{%endblock content%}
