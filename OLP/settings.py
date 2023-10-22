@@ -152,8 +152,7 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, "static1")  
 
-key_id="rzp_test_Hp96cw7lksRx3H"
-key_secret="4eijrKRO5Bq23Do2IG0HGXna"
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
