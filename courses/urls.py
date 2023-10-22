@@ -3,6 +3,12 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path
 from .views import *
+from .serializers import *
+from django.contrib import admin
+from django.urls import path,include
+from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
+from rest_framework_simplejwt.views import TokenObtainPairView,TokenRefreshView,TokenVerifyView
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 
@@ -35,6 +41,37 @@ urlpatterns = [
     path('password-reset-confirm/<uidb64>/<token>',auth_views.PasswordResetConfirmView.as_view(template_name='courses/password_reset_confirm.html'),name='password_reset_confirm'),    
     path('password-reset/done/',auth_views.PasswordResetDoneView.as_view(template_name='courses/password_reset_done.html'),name='password_reset_done'),
     path('password-reset-complete/',auth_views.PasswordResetCompleteView.as_view(template_name='courses/password_reset_complete.html'),name='password_reset_complete'),
+
+
+###############################  API Urls   ###############################
+   
+    path('api/gettoken/',TokenObtainPairView.as_view(),name="gettoken"),
+    path('api/refreshtoken/',TokenRefreshView.as_view(),name="refreshtoken"),
+    path('api/verifytoken/',TokenVerifyView.as_view(),name="verify"),
+
+
+
+    path('api/registration/',UserRegistrationAPIView.as_view(),name="userregistration"),
+    path('api/login/',UserLoginAPIView.as_view(),name='api_login'),
+    path("api/courselist/",course_list,name="api_courselist"),
+    path("api/addcourse/",add_course,name="api_addcourse"),
+    path('api/display-course-details/',display_course_details_api,name='display_course_details_api'),
+    path('api/courses/<int:course_id>/purchased-students/', purchased_students_api, name='purchased-students-api'),
+    path('api/user/logout/', user_logout, name='user-logout'),
+    path('api/student/logout/',student_logout,name='student_logout'),
+    path('api/courses/<int:course_id>/add_content/',add_content_api,name='api_content'),
+    path('api/videos/<str:video_id>/',update_video_api,name='api_update'),
+    path('api/videos/delete/<int:video_id>/', delete_video_api, name='delete-video-api'),
+    path('api/course/delete/<int:course_id>/',delete_course_api,name='delete_course_api'),
+    path('api/course/update/<int:course_id>/', update_course_api, name='update-course-api'),
+    path('api/my-courses/', my_courses_list_api, name='my-courses-api'),
+    path('api/course-page/<slug>/', course_page_api, name='course-page-api'),
+    path('api/rate-course/<slug>/', rate_course_api, name='rate-course-api'),
+    path('api/forgot-password/', forgot_password_api, name='forgot-password-api'),
+    path('api/reset-password/<token>/', reset_password_api, name='reset-password-api'),
+    path('api/checkout/<slug>/', checkout_api, name='checkout-api'),
+    path('api/verify-payment/', verify_payment_api, name='verify-payment-api'),
+    path('api/payment_verification/',payment,name='payment_verification'),
 
 ]   
 
